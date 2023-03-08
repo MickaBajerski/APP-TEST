@@ -35,14 +35,25 @@ const Regions = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.region}>
-      <Text style={styles.regionName}>{item.name}</Text>
-      <FlatList
-        data={item.sources}
-        keyExtractor={(source) => source}
-        renderItem={({ item }) => <Text style={styles.source}>{item}</Text>}
-      />
+      <View style={styles.regionContainer}>
+        <Text style={styles.regionName}>{item.name}</Text>
+        <TouchableOpacity onPress={() => console.log("Edit Region")}>
+          <Image
+            style={styles.drawerIcon}
+            // source={require("../assets/edit.png")}
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.sourcesContainer}>
+        {item.sources.map((source) => (
+          <View key={source} style={styles.sourceContainer}>
+            <Text style={styles.source}>{source}</Text>
+          </View>
+        ))}
+      </View>
     </View>
   );
+  
 
   return (
     <View style={styles.container}>
