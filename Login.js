@@ -9,16 +9,22 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   const handlePress = async () => {
-    handleLogin(username, password)
-      .then(async (ret) => {
-        console.log(ret)
+    try {
+      const response = await handleLogin(username, password);
+      console.log(response.data);
+  
+      if (response.data.success === true) {
         navigation.replace("Drawer");
-      })
-      .catch((ret) => {
-        console.log("Definição CATCH:", ret);
-        return ret.data;
-      });
+      } else {
+        // handle the case when login was not successful
+        console.log("Login failed");
+      }
+    } catch (error) {
+      console.log("Definição CATCH:", error);
+    }
   };
+  
+  
 
   return (
     <View style={styles.container}>

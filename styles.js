@@ -5,30 +5,42 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#F2F7F5',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 24,
+    color: '#424B54',
+    textShadowColor: '#B0B6BB',
+    textShadowOffset: { width: 0.5, height: 0.5 },
+    textShadowRadius: 2,
   },
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     width: '80%',
     height: 40,
     marginBottom: 16,
     paddingHorizontal: 16,
     borderRadius: 4,
+    borderColor: '#C3CFD9',
+    borderWidth: 1,
+    color: '#424B54',
   },
   button: {
-    backgroundColor: '#2e3e4f',
+    backgroundColor: '#3CB371',
     borderRadius: 4,
     paddingVertical: 12,
     paddingHorizontal: 16,
     marginTop: 16,
+    shadowColor: '#2E8B57',
+    shadowOffset: { width: 0.5, height: 0.5 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 3,
   },
   buttonText: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -38,10 +50,18 @@ const styles = StyleSheet.create({
   regionName: {
     fontWeight: 'bold',
     marginBottom: 8,
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
   source: {
     marginLeft: 16,
     color: '#777',
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
   regionsTitle: {
     fontSize: 20,
@@ -64,6 +84,25 @@ const styles = StyleSheet.create({
     height: 50,
     resizeMode: 'contain',
   },
+  regionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  sourcesContainer: {
+    backgroundColor: '#F5F5F5',
+    padding: 8,
+  },
+  sourceContainer: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 15,
+    padding: 8,
+    marginBottom: 8,
+  },
+  source: {
+    color: '#777',
+  },
+
 });
 
 export default styles;

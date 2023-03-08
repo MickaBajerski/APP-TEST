@@ -1,12 +1,12 @@
-import http from 'axios';
+import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const instance = http.create({
+const http = axios.create({
   baseURL: 'http://179.97.102.248:1337/api',
   timeout: 5000,
 });
 
-instance.interceptors.request.use(async (config) => {
+http.interceptors.request.use(async (config) => {
   const token = await AsyncStorage.getItem('authentication-key');
   if (token) {
     config.headers['authentication-key'] = token;
@@ -14,4 +14,4 @@ instance.interceptors.request.use(async (config) => {
   return config;
 });
 
-export default instance;
+export default http;

@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button } from './Forms';
-import styles from './styles';
-import { handleGetAllRegions } from './reqs';
+import React, { useEffect, useState } from "react";
+import { View, Text } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Button } from "./Forms";
+import styles from "./styles";
+import { handleGetAllRegions } from "./reqs";
 
 const Success = ({ navigation }) => {
   const [regions, setRegions] = useState([]);
 
   const handleLogout = async () => {
-    await AsyncStorage.removeItem('authentication-key');
-    navigation.replace('Logout');
+    await AsyncStorage.removeItem("authentication-key");
+    navigation.replace("Logout");
   };
 
   const handleNavigateDrawi = () => {
-    navigation.navigate('Drawer');
+    navigation.navigate("Drawer");
   };
 
   // const renderRegion = ({ item }) => (
@@ -56,7 +56,9 @@ const Success = ({ navigation }) => {
     //   )}
     // </View>
 
-    <View><Text>Opa</Text></View>
+    <View>
+      <Text>Opa</Text>
+    </View>
   );
 };
 
