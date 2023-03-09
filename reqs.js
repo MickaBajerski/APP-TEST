@@ -15,7 +15,7 @@ const handleLogin = async (login, password) => {
     }
   } catch (error) {
     console.log("Definição CATCHERROR:", error);
-    return error.data;
+    throw error;
   }
 };
 
@@ -28,14 +28,10 @@ const handleGetAllRegions = async () => {
       },
     };
     const response = await http.get("/admin/readAllRegions", config);
-    const regions = response.data;
+    const regions = response.data.data;
     const sources = await Promise.all(
       regions.map(async (region) => {
-        const sourceResponse = await http.post(
-          "/admin/sourceReadRegion",
-          { regionId: region.id },
-          config
-        );
+        const sourceResponse = await handleSourceReadRegion(region.id, authKey);
         const sources = sourceResponse.data.data.map((source) => ({
           id: source.id,
           name: source.name,
@@ -72,4 +68,24 @@ const handleLogout = async () => {
   }
 };
 
-export { handleLogin, handleLogout, handleGetAllRegions };
+const handleSourceReadRegion = async (regionId, authKey) => {
+  try {
+    const config = {
+      headers: {
+        "authentication-key": authKey,
+        regionId: regionId,
+      },
+    };
+    const response = await http.get("/admin/sourceReadRegion", config);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export {
+  handleLogin,
+  handleLogout,
+  handleGetAllRegions,
+  handleSourceReadRegion,
+};
