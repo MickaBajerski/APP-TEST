@@ -11,7 +11,6 @@ const Login = ({ navigation }) => {
   const handlePress = async () => {
     try {
       const response = await handleLogin(username, password);
-      console.log(response.data);
   
       if (response.data.success === true) {
         navigation.replace("Drawer");

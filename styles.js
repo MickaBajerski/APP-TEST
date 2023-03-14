@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
   source: {
     color: '#777',
   },
-
 });
 
 export default styles;

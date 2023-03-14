@@ -14,7 +14,7 @@ const handleLogin = async (login, password) => {
       Alert.alert(`${title}`, description);
     }
   } catch (error) {
-    console.log("Definição CATCHERROR:", error);
+    console.log("Definição CATCH:", error);
     throw error;
   }
 };
@@ -72,8 +72,7 @@ const handleSourceReadRegion = async (regionId, authKey) => {
   try {
     const config = {
       headers: {
-        "authentication-key": authKey,
-        regionId: regionId,
+        "authentication-key": authKey
       },
     };
     const response = await http.get("/admin/sourceReadRegion", config);
@@ -86,6 +85,6 @@ const handleSourceReadRegion = async (regionId, authKey) => {
 export {
   handleLogin,
   handleLogout,
-  handleGetAllRegions,
+  handleGetAllRegions,  
   handleSourceReadRegion,
 };
