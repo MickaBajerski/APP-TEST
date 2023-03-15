@@ -20,10 +20,12 @@ const Regions = () => {
           "authentication-key": token,
         },
       });
+      await AsyncStorage.setItem("regionId", response.data.data[0].id);
+      await console.log('R Response.data',response.data.data[0].id)
       setResponse(response.data); // set the entire response object
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log('Error',error);
       setLoading(false);
     }
   }, []);

@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   regionsTitle: {
+    justifyContent: 'center',
     fontSize: 20,
     fontWeight: 'bold',
     marginTop: 24,

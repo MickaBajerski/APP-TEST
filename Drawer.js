@@ -9,7 +9,7 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
   return (
-      <Drawer.Navigator initialRouteName="Sources">
+      <Drawer.Navigator initialRouteName="Regions">
         <Drawer.Screen name="Drawi" component={Drawi} />
         <Drawer.Screen name="Success" component={Success} />
         <Drawer.Screen name="Regions" component={Regions} />

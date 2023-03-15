@@ -7,7 +7,7 @@ const handleLogin = async (login, password) => {
     const response = await http.post("/login", { login, password });
     if (response.data.success == true) {
       await AsyncStorage.setItem("authKey", response.data.data.id);
-      console.log("ID", response.data.data.id);
+      console.log("Reqs ID", response.data.data.id);
       return response;
     } else {
       const { title, description } = response.data.data;

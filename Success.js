@@ -57,7 +57,7 @@ const Success = ({ navigation }) => {
     // </View>
 
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Opa</Text>
+      <Text>Success</Text>
     </View>
   );
 };
