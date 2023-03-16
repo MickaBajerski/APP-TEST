@@ -32,6 +32,7 @@ const handleGetAllRegions = async () => {
     const sources = await Promise.all(
       regions.map(async (region) => {
         const sourceResponse = await handleSourceReadRegion(region.id, authKey);
+        console.log(sourceResponse)
         const sources = sourceResponse.data.data.map((source) => ({
           id: source.id,
           name: source.name,
@@ -68,14 +69,17 @@ const handleLogout = async () => {
   }
 };
 
-const handleSourceReadRegion = async (regionId, authKey) => {
+const handleSourceReadRegion = async (regionId) => {
   try {
+    const authKey = await AsyncStorage.getItem("authKey");
     const config = {
       headers: {
         "authentication-key": authKey
       },
     };
-    const response = await http.get("/admin/sourceReadRegion", config);
+    const response = await http.get(`/admin/readAllRegions`, config);
+    await AsyncStorage.setItem("regionId", regionId);
+    console.log('R Response.data', response.data.data);
     return response;
   } catch (error) {
     throw error;

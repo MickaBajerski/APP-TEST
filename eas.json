@@ -13,9 +13,9 @@
     "preview": {
       "distribution": "internal",
       "ios": {
-      "resourceClass": "m1-medium"
+        "resourceClass": "m1-medium"
       },"android": {
-      "buildType": "apk"
+        "buildType": "apk"
       }
     },
     "production": {

@@ -2,27 +2,20 @@ import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { View, Text, FlatList, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import http from "./axios";
+import { handleGetAllRegions } from "./reqs";
 import styles from "./styles";
 
 const Regions = () => {
   const [regions, setRegions] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  const [response, setResponse] = useState(null); // initialize response state to null
 
   const getRegions = useCallback(async () => {
     try {
       setLoading(true);
-      const token = await AsyncStorage.getItem("authKey");
-      const response = await http.get("/admin/readAllRegions", {
-        headers: {
-          "authentication-key": token,
-        },
-      });
-      await AsyncStorage.setItem("regionId", response.data.data[0].id);
-      await console.log('R Response.data',response.data.data[0].id)
-      setResponse(response.data); // set the entire response object
+      const regionsData = await handleGetAllRegions();
+      setRegions(regionsData.map((region) => region.name));
+      AsyncStorage.setItem("regionId", regionsData[0].id); // store the id of the first region in AsyncStorage
       setLoading(false);
     } catch (error) {
       console.log('Error',error);
@@ -33,12 +26,6 @@ const Regions = () => {
   useEffect(() => {
     getRegions();
   }, [getRegions]);
-
-  useEffect(() => {
-    if (response) {
-      setRegions(response.data.map((region) => region.name)); // update regions state when a new response is received
-    }
-  }, [response]);
 
   const renderItem = useCallback(({ item }) => (
     <View style={styles.region}>
