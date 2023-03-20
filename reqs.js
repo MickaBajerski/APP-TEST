@@ -1,6 +1,7 @@
 import http from "./axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const handleLogin = async (login, password) => {
   try {
@@ -32,7 +33,7 @@ const handleGetAllRegions = async () => {
     const sources = await Promise.all(
       regions.map(async (region) => {
         const sourceResponse = await handleSourceReadRegion(region.id, authKey);
-        console.log(sourceResponse)
+        console.log(sourceResponse);
         const sources = sourceResponse.data.data.map((source) => ({
           id: source.id,
           name: source.name,
@@ -52,19 +53,18 @@ const handleGetAllRegions = async () => {
 
 const handleLogout = async () => {
   try {
-    const token = await AsyncStorage.getItem("authKey");
-    const response = await http.post(
-      "/logout",
-      {},
-      {
-        headers: {
-          "authentication-key": token,
-        },
-      }
-    );
-    await AsyncStorage.removeItem("authKey");
-    return response;
+    const authKey = await AsyncStorage.getItem("authKey");
+    const config = {
+      headers: {
+        "authentication-key": authKey,
+      },
+    };
+    const response = await http.post("/logout", null, config);
+    console.log(response.data)
+    await AsyncStorage.clear();
+    return response.data;
   } catch (error) {
+    console.error("Error logging out:", error);
     throw error;
   }
 };
@@ -74,12 +74,12 @@ const handleSourceReadRegion = async (regionId) => {
     const authKey = await AsyncStorage.getItem("authKey");
     const config = {
       headers: {
-        "authentication-key": authKey
+        "authentication-key": authKey,
       },
     };
     const response = await http.get(`/admin/readAllRegions`, config);
     await AsyncStorage.setItem("regionId", regionId);
-    console.log('R Response.data', response.data.data);
+    console.log("R Response.data", response.data.data);
     return response;
   } catch (error) {
     throw error;
@@ -89,6 +89,6 @@ const handleSourceReadRegion = async (regionId) => {
 export {
   handleLogin,
   handleLogout,
-  handleGetAllRegions,  
+  handleGetAllRegions,
   handleSourceReadRegion,
 };

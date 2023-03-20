@@ -1,19 +1,19 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import styles from './styles';
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { View, Text } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { handleLogout } from "./reqs";
 
-const Logout = ({ navigation }) => {
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem('authentication-key');
-    navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
-  };
-
+const Logout = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Logout</Text>
-      <TouchableOpacity style={styles.button} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Logout</Text>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>Logout</Text>
+      <TouchableOpacity
+        onPress={() => {
+          handleLogout();
+        }}
+      >
+        <Text>BOTAO</Text>
       </TouchableOpacity>
     </View>
   );

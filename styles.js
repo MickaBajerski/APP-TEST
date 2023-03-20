@@ -61,14 +61,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 15,
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingVertical: 5,
   },
   regionsTitle: {
     justifyContent: 'center',
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: 24,
-    marginBottom: 8,
+    marginTop: 15,
+    marginBottom: 4,
   },
   drawerIcon: {
     marginLeft: 16,
@@ -92,13 +92,13 @@ const styles = StyleSheet.create({
   },
   sourcesContainer: {
     backgroundColor: '#F5F5F5',
-    padding: 8,
+    padding: 4,
   },
   sourceContainer: {
     backgroundColor: '#FFFFFF',
     borderRadius: 15,
-    padding: 8,
-    marginBottom: 8,
+    padding: 5,
+    marginBottom: 4,
   },
   source: {
     color: '#777',

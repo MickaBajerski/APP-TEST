@@ -16,6 +16,7 @@ const Regions = () => {
       const regionsData = await handleGetAllRegions();
       setRegions(regionsData.map((region) => region.name));
       AsyncStorage.setItem("regionId", regionsData[0].id); // store the id of the first region in AsyncStorage
+      AsyncStorage.setItem("RegName", regionsData[0].name); // store the Name of the first region in AsyncStorage
       setLoading(false);
     } catch (error) {
       console.log('Error',error);

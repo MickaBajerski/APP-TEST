@@ -31,9 +31,9 @@ const Sources = () => {
             "authentication-key": token,
           },
         }
-      );
-      setResponse(response.data); // set the entire response object
-      setLoading(false);
+        );
+        setResponse(response.data); // set the entire response object
+        setLoading(false);
     } catch (error) {
       console.log("sError", error);
       setLoading(false);
@@ -72,7 +72,7 @@ const Sources = () => {
       <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
         <Image style={styles.menuIcon} />
       </TouchableOpacity>
-      <Text style={styles.regionsTitle}>Sources by Regions</Text>
+      <Text style={styles.regionsTitle}>Sources from </Text>
       {loading ? (
         <ActivityIndicator />
       ) : (
