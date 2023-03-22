@@ -1,19 +1,20 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View, Text, TouchableOpacity } from "react-native";
+import styles from "./styles";
 import { handleLogout } from "./reqs";
 
 const Logout = () => {
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Logout</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Logout</Text>
       <TouchableOpacity
+        style={styles.button}
         onPress={() => {
           handleLogout();
         }}
       >
-        <Text>BOTAO</Text>
+        <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
     </View>
   );
