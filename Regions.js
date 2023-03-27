@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { View, Text, FlatList, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { handleGetAllRegions } from "./reqs";
 import styles from "./styles";
 
@@ -9,6 +9,7 @@ const Regions = () => {
   const [regions, setRegions] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
 
   const getRegions = useCallback(async () => {
     try {
@@ -25,8 +26,10 @@ const Regions = () => {
   }, []);
 
   useEffect(() => {
-    getRegions();
-  }, [getRegions]);
+    if (isFocused) {
+      getRegions();
+    }
+  }, [isFocused, getRegions]);
 
   const renderItem = useCallback(({ item }) => (
     <View style={styles.region}>

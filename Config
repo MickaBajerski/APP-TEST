@@ -1,0 +1,51 @@
+// import React, { useState } from 'react';
+// import { View, Text, TouchableOpacity } from 'react-native';
+// import styles from './styles';
+// import http from './axios';
+
+// const Config = () => {
+//   const [selected, setSelected] = useState('http://179.97.96.74:8080/api');
+
+//   const handlePress = () => {
+//     http.defaults.baseURL = selected;
+//     console.log('baseURL set to', selected);
+//   };
+
+//   const toggleSelected = (value) => {
+//     setSelected(value);
+//   };
+
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.title}>Config</Text>
+
+//       <View style={styles.toggleList}>
+//         <TouchableOpacity
+//           style={[
+//             styles.toggleItem,
+//             selected === 'http://179.97.102.248:1337/api' && styles.selectedToggleItem,
+//           ]}
+//           onPress={() => toggleSelected('http://179.97.102.248:1337/api')}
+//         >
+//           <Text style={styles.toggleText}>http://179.97.102.248:1337/api</Text>
+//         </TouchableOpacity>
+
+//         <TouchableOpacity
+//           style={[
+//             styles.toggleItem,
+//             selected === 'http://179.97.96.74:8080/api' && styles.selectedToggleItem,
+//           ]}
+//           onPress={() => toggleSelected('http://179.97.96.74:8080/api')}
+//         >
+//           <Text style={styles.toggleText}>http://179.97.96.74:8080/api</Text>
+//         </TouchableOpacity>
+//       </View>
+
+//       <TouchableOpacity style={styles.button} onPress={handlePress}>
+//         <Text style={styles.buttonText}>Save</Text>
+//       </TouchableOpacity>
+//     </View>
+//   );
+// };
+
+// export default Config;
