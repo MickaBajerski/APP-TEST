@@ -12,10 +12,10 @@ const DrawerNavigator = () => {
   return (
     <Drawer.Navigator initialRouteName="Instance">
       <Drawer.Screen name="ListScreen" component={ListScreen} />
-      <Drawer.Screen name="Success" component={Success} />
       <Drawer.Screen name="Regions" component={Regions} />
       <Drawer.Screen name="Sources" component={Sources} />
       <Drawer.Screen name="Logout" component={Logout} />
+      <Drawer.Screen name="Success" component={Success} />
     </Drawer.Navigator>
   );
 };

@@ -6,16 +6,5 @@ const http = axios.create({
   timeout: 5000,
 });
 
-http.interceptors.request.use(async (config) => {
-  const token = await AsyncStorage.getItem('authentication-key');
-  if (token) {
-    config.headers['authentication-key'] = token;
-    console.log('Auth key set:', token);
-  } else {
-    console.log('No auth key found');
-  }
-  return config;
-});
-
 
 export default http;

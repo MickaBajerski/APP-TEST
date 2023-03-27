@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import http from "./axios";
 import styles from "./styles";
 
@@ -16,41 +16,45 @@ const Sources = () => {
   const [sources, setSources] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  const [response, setResponse] = useState(null); // initialize response state to null
+  const [response, setResponse] = useState(null);
+  const isFocused = useIsFocused();
 
   const getsources = useCallback(async () => {
-    try {
-      setLoading(true);
-      const rId = await AsyncStorage.getItem("regionId");
-      const token = await AsyncStorage.getItem("authKey");
-      const response = await http.post(
-        "/admin/sourceReadRegion",
-        { regionId: rId },
-        {
-          headers: {
-            "authentication-key": token,
-          },
-        }
+    if (isFocused) {
+      try {
+        setLoading(true);
+        const rId = await AsyncStorage.getItem("regionId");
+        const token = await AsyncStorage.getItem("authKey");
+        const response = await http.post(
+          "/admin/sourceReadRegion",
+          { regionId: rId },
+          {
+            headers: {
+              "authentication-key": token,
+            },
+          }
         );
-        setResponse(response.data); // set the entire response object
+        setResponse(response.data);
         setLoading(false);
-    } catch (error) {
-      console.log("sError", error);
-      setLoading(false);
+      } catch (error) {
+        console.log("sError", error);
+        setLoading(false);
+      }
     }
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     getsources();
   }, [getsources]);
 
   useEffect(() => {
-    if (response) {
-      console.log('responseS', response);
-      setSources(response.data.map((source) => source.name)); // update sources state when a new response is received
+    if (response && isFocused) {
+      const sourcesWithIds = response.data.map((source) => `${source.name} (${source.id})`);
+      setSources(sourcesWithIds);
+      console.log(sourcesWithIds);
     }
-  }, [response]);
-
+  }, [response, isFocused]);
+  
   const renderItem = useCallback(
     ({ item }) => (
       <View style={styles.region}>

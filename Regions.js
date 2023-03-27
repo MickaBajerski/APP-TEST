@@ -15,9 +15,11 @@ const Regions = () => {
     try {
       setLoading(true);
       const regionsData = await handleGetAllRegions();
-      setRegions(regionsData.map((region) => region.name));
-      AsyncStorage.setItem("regionId", regionsData[0].id); // store the id of the first region in AsyncStorage
-      AsyncStorage.setItem("RegName", regionsData[0].name); // store the Name of the first region in AsyncStorage
+      setRegions(regionsData);
+      regionsData.forEach((region, index) => {
+        AsyncStorage.setItem(`regionId_${index}`, region.id);
+        AsyncStorage.setItem(`regionName_${index}`, region.name);
+      });
       setLoading(false);
     } catch (error) {
       console.log('Error',error);
@@ -31,10 +33,10 @@ const Regions = () => {
     }
   }, [isFocused, getRegions]);
 
-  const renderItem = useCallback(({ item }) => (
+  const renderItem = useCallback(({ item, index }) => (
     <View style={styles.region}>
       <View style={styles.regionContainer}>
-        <Text style={styles.regionName}>{item}</Text>
+        <Text style={styles.regionName}>{item.name}</Text>
         <TouchableOpacity onPress={() => console.log("Edit Region")}>
           <Image style={styles.drawerIcon} />
         </TouchableOpacity>
@@ -55,7 +57,7 @@ const Regions = () => {
       ) : (
         <FlatList
           data={regionsMemo}
-          keyExtractor={(region) => region}
+          keyExtractor={(region) => region.id}
           renderItem={renderItem}
         />
       )}
