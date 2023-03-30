@@ -51,7 +51,7 @@ const handleGetAllRegions = async () => {
   }
 };
 
-const handleLogout = async () => {
+const handleLogout = async (navigation) => {
   try {
     const authKey = await AsyncStorage.getItem("authKey");
     const config = {
@@ -62,12 +62,14 @@ const handleLogout = async () => {
     const response = await http.post("/logout", null, config);
     console.log(response.data)
     await AsyncStorage.clear();
+    navigation.navigate("Login");
     return response.data;
   } catch (error) {
     console.error("Error logging out:", error);
     throw error;
   }
 };
+
 
 const handleSourceReadRegion = async (regionId) => {
   try {
