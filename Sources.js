@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
   Text,
   FlatList,
   TouchableOpacity,
   Image,
-  ActivityIndicator,
+  ActivityIndicator
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
@@ -16,39 +16,53 @@ const Sources = () => {
   const [sourcesByRegion, setSourcesByRegion] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  const [response, setResponse] = useState(null);
   const isFocused = useIsFocused();
 
- const getSourcesByRegion = useCallback(async () => {
-  try {
-    setLoading(true);
-
-    const keys = await AsyncStorage.getAllKeys();
-    const regionIds = keys.filter(key => key.startsWith('regionId'));
-    const token = await AsyncStorage.getItem("authKey");
-
-    const sourcesByRegion = await Promise.all(regionIds.map(async (regionIdKey) => {
-      const rId = await AsyncStorage.getItem(regionIdKey);
-      const response = await http.post(
-        "/admin/sourceReadRegion",
-        { regionId: rId },
-        {
-          headers: {
-            "authentication-key": token,
-          },
+  const getSourcesByRegion = useCallback(async () => {
+    try {
+      setLoading(true);
+  
+      const keys = await AsyncStorage.getAllKeys();
+      console.log('source key',keys)
+      const regionIds = keys.filter((value) => value.startsWith("regionId"));
+      console.log('Source regionsid keys.filter',regionIds)
+      const token = await AsyncStorage.getItem("authKey");
+  
+      const sourcesByRegion = await Promise.all(
+        regionIds.map(async (regionIdKey) => {
+          const rIds = await AsyncStorage.getItem(regionIdKey);
+          console.log('sources rIDS',rIds)
+          const sources = await Promise.all(
+            JSON.parse(rIds).map(async (rId) => {
+              const response = await http.post(
+                "/admin/sourceReadRegion",
+                { regionId: rId },
+                {
+                  headers: {
+                    "authentication-key": token,
+                  },
+                }
+                );
+                console.log('source rids',rId)
+              // console.log('sources data',response.data)
+              return response;
+            })
+          );
+          console.log('regionID',regionId)
+          console.log('and sources',sources)
+          return { regionId: regionIdKey, sources: sources.flat() };
         }
+        )
       );
-      return { regionId: rId, sources: response.data };
-    }));
-
-    setSourcesByRegion(sourcesByRegion);
-    setLoading(false);
-  } catch (error) {
-    console.log("sError", error);
-    setLoading(false);
-  }
-}, []);
-
+      setSourcesByRegion(sourcesByRegion);
+      setLoading(false);
+    } catch (error) {
+      console.log("Sources Error", error);
+      setLoading(false);
+      // Alert.alert("Error", "Failed to load sources by region.");
+    }
+  }, []);
+  
   
 
   useEffect(() => {
@@ -82,8 +96,6 @@ const Sources = () => {
     []
   );
 
-  const sourcesByRegionMemo = useMemo(() => sourcesByRegion, [sourcesByRegion]);
-
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
@@ -94,7 +106,7 @@ const Sources = () => {
         <ActivityIndicator />
       ) : (
         <FlatList
-          data={sourcesByRegionMemo}
+          data={sourcesByRegion}
           keyExtractor={(item) => item.regionId}
           renderItem={renderItem}
         />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { View, Text, FlatList, TouchableOpacity, Image, ActivityIndicator } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { handleGetAllRegions } from "./reqs";
@@ -16,11 +16,12 @@ const Regions = () => {
       setLoading(true);
       const regionsData = await handleGetAllRegions();
       setRegions(regionsData);
-      regionsData.forEach((region, index) => {
-        AsyncStorage.setItem(`regionId_${index}`, region.id);
-        AsyncStorage.setItem(`regionName_${index}`, region.name);
-      });
+      const regionIds = regionsData.map((region) => region.id);
+      console.log(regionIds)
+      await AsyncStorage.setItem('regionIds',  JSON.stringify(regionIds));
       setLoading(false);
+      const testi = AsyncStorage.getItem('regionIds')
+      console.log('teste',testi)
     } catch (error) {
       console.log('Error',error);
       setLoading(false);
@@ -37,9 +38,6 @@ const Regions = () => {
     <View style={styles.region}>
       <View style={styles.regionContainer}>
         <Text style={styles.regionName}>{item.name}</Text>
-        <TouchableOpacity onPress={() => console.log("Edit Region")}>
-          <Image style={styles.drawerIcon} />
-        </TouchableOpacity>
       </View>
     </View>
   ), []);
@@ -48,9 +46,9 @@ const Regions = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-        <Image style={styles.menuIcon} />
-      </TouchableOpacity>
+      {/* <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+        <Text>Menu</Text>
+      </TouchableOpacity> */}
       <Text style={styles.regionsTitle}>Regions</Text>
       {loading ? (
         <ActivityIndicator />
