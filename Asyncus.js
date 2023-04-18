@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Asyncus = () => {
@@ -8,8 +8,9 @@ const Asyncus = () => {
   useEffect(() => {
     const getAsyncStorageData = async () => {
       try {
-        const regionIds = await AsyncStorage.getItem('regionIds');
-        setAsyncStorageData([{ key: 'regionIds', value: regionIds }]);
+        const keys = await AsyncStorage.getAllKeys();
+        const values = await AsyncStorage.multiGet(keys);
+        setAsyncStorageData(values.map((item) => ({ key: item[0], value: item[1] })));
       } catch (error) {
         console.log(error);
       }
@@ -18,7 +19,7 @@ const Asyncus = () => {
     // Call the function once to get the initial value
     getAsyncStorageData();
 
-    // Listen for changes to the regionIds value in AsyncStorage
+    // Listen for changes to any value in AsyncStorage
     const subscription = setInterval(getAsyncStorageData, 1000);
 
     // Clean up the subscription when the component unmounts
@@ -27,17 +28,30 @@ const Asyncus = () => {
     };
   }, []);
 
+  const handleShowAllData = async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys();
+      const values = await AsyncStorage.multiGet(keys);
+      console.log('All data in AsyncStorage:', values);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <FlatList
-      data={asyncStorageData}
-      renderItem={({ item }) => (
-        <View>
-          <Text>{item.key}</Text>
-          <Text>{item.value}</Text>
-        </View>
-      )}
-      keyExtractor={(item) => item.key}
-    />
+    <View>
+      <FlatList
+        data={asyncStorageData}
+        renderItem={({ item }) => (
+          <View>
+            <Text>{item.key}</Text>
+            <Text>{item.value}</Text>
+          </View>
+        )}
+        keyExtractor={(item) => item.key}
+      />
+      <Button title="Show All Data" onPress={handleShowAllData} />
+    </View>
   );
 };
 

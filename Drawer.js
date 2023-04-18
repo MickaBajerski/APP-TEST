@@ -11,7 +11,7 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator initialRouteName="Regions">
+    <Drawer.Navigator initialRouteName="ListScreen">
       <Drawer.Screen name="ListScreen" component={ListScreen} />
       <Drawer.Screen name="Asyncus" component={Asyncus} />
       <Drawer.Screen name="Regions" component={Regions} />
